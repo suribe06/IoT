@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE Diagram SYSTEM "rtdsDiagram.dtd">
+
+<Diagram language="sdl" type="sys" defaultColorsNeedFixing="FALSE" name="monitoreoCultivos" showMsgData="full" linksCrossingAllowed="FALSE" cellWidthMm="4">
+
+<DiagramPartition name="Part. 0" nbPagesH="1" nbPagesV="2">
+<PageSpecification pageWidth="21.0" pageHeight="29.7" topMargin="0.0" bottomMargin="0.0" leftMargin="0.0" rightMargin="0.0" pageFooter="FALSE" scaleFactor="1.0"/>
+
+<Symbol symbolId="SYMB2" type="sdlSysDgmFrm" xCenter="297" yCenter="841" fixedDimensions="TRUE" width="551" height="1617" color="-" fillColor="-">
+<Description></Description>
+<Text></Text>
+
+<Symbol symbolId="SYMB3" type="sdlText" xCenter="297" yCenter="385" fixedDimensions="TRUE" width="440" height="726" color="#000000" fillColor="#FFFFFF">
+<Description></Description>
+<Text>/*
+SYNONYM NUM_CONTROLLER INTEGER = 2;
+SYNONYM NUM_CONSOLE INTEGER = 1;
+SYNONYM NUM_PH_SENSOR INTEGER = 2;
+SYNONYM NUM_H_SENSOR INTEGER = 2;
+SYNONYM NUM_T_SENSOR INTEGER = 2;
+SYNTYPE ConsID = INTEGER
+  DEFAULT 1;
+  CONSTANTS 1..NUM_CONSOLE
+ENDSYNTYPE;
+SYNTYPE ContID = INTEGER
+  DEFAULT 1;
+  CONSTANTS 1..NUM_CONTROLLER
+ENDSYNTYPE;
+SYNTYPE PhSID = INTEGER
+  DEFAULT 1;
+  CONSTANTS 1..NUM_PH_SENSOR
+ENDSYNTYPE;
+SYNTYPE TempSID = INTEGER
+  DEFAULT 1;
+  CONSTANTS 1..NUM_H_SENSOR
+ENDSYNTYPE;
+SYNTYPE HumSID = INTEGER
+  DEFAULT 1;
+  CONSTANTS 1..NUM_T_SENSOR
+ENDSYNTYPE;
+NEWTYPE ConsoleArray
+  ARRAY(ConsID, PID, ControllerArray)
+ENDNEWTYPE;
+NEWTYPE ControllerArray
+  ARRAY(ContID, PID)
+ENDNEWTYPE;
+NEWTYPE PhSArray
+  ARRAY(PhSID, PID)
+ENDNEWTYPE;
+NEWTYPE TempSArray
+  ARRAY(TempSID, PID)
+ENDNEWTYPE;
+NEWTYPE HumSArray
+  ARRAY(HumSID, PID)
+ENDNEWTYPE;
+*/
+
+SYNONYM NUM_SENSORS INTEGER = 3;
+SYNTYPE SensorID = INTEGER
+  DEFAULT 1;
+  CONSTANTS 1..NUM_SENSORS
+ENDSYNTYPE;
+NEWTYPE sensorsArray
+  ARRAY(SensorID, INTEGER)
+ENDNEWTYPE;
+</Text>
+</Symbol>
+
+<Symbol symbolId="SYMB5" type="sdlText" xCenter="297" yCenter="902" fixedDimensions="TRUE" width="462" height="110" color="#000000" fillColor="#FFFFFF">
+<Description></Description>
+<Text>SIGNAL sGetData, sDisplay;
+SIGNAL sGetHum, sGetTemp, sGetPH, sSendData(sensorsArray);
+SIGNAL sSendHum(SensorID);
+SIGNAL sSendTemp(SensorID);
+SIGNAL sSendPH(SensorID);
+</Text>
+</Symbol>
+</Symbol>
+</DiagramPartition>
+
+<DiagramPartition name="Architecture" nbPagesH="2" nbPagesV="1">
+<PageSpecification pageWidth="21.0" pageHeight="29.7" topMargin="0.0" bottomMargin="0.0" leftMargin="0.0" rightMargin="0.0" pageFooter="FALSE" scaleFactor="1.0"/>
+
+<Symbol symbolId="SYMB6" type="sdlSysDgmFrm" xCenter="595" yCenter="420" fixedDimensions="TRUE" width="1146" height="775" color="-" fillColor="-">
+<Description></Description>
+<Text></Text>
+
+<Symbol symbolId="SYMB10" type="sdlPrcs" xCenter="792" yCenter="308" fixedDimensions="FALSE" width="154" height="44" color="#000000" fillColor="#C4EFED">
+<Description></Description>
+<Text>pSenTemperature
+</Text>
+</Symbol>
+
+<Symbol symbolId="SYMB11" type="sdlPrcs" xCenter="781" yCenter="484" fixedDimensions="FALSE" width="88" height="44" color="#000000" fillColor="#C4EFED">
+<Description></Description>
+<Text>pSenPH
+</Text>
+</Symbol>
+
+<Symbol symbolId="SYMB7" type="sdlPrcs" xCenter="308" yCenter="77" fixedDimensions="TRUE" width="198" height="44" color="#000000" fillColor="#C4EFED">
+<Description></Description>
+<Text>pConsole
+</Text>
+</Symbol>
+
+<Symbol symbolId="SYMB8" type="sdlPrcs" xCenter="308" yCenter="308" fixedDimensions="FALSE" width="110" height="44" color="#000000" fillColor="#C4EFED">
+<Description></Description>
+<Text>pController
+</Text>
+</Symbol>
+
+<Symbol symbolId="SYMB9" type="sdlPrcs" xCenter="792" yCenter="132" fixedDimensions="FALSE" width="132" height="44" color="#000000" fillColor="#C4EFED">
+<Description></Description>
+<Text>pSenHumidity
+</Text>
+</Symbol>
+</Symbol>
+
+<Link linkId="LINK4" type="chnl" textSegmentNum="0" color="#000000" reverseRead="FALSE" oriented="TRUE">
+<Text>cEnvCon</Text>
+<Connector attachedSymbolId="SYMB7" type="chnl" isOutside="TRUE" side="y" position="0.0" endType="midarrow">
+<Text id="1">[]</Text>
+<Text id="2"></Text>
+</Connector>
+<Connector attachedSymbolId="SYMB6" type="chnl" isOutside="FALSE" side="w" position="-0.8" endType="midarrow">
+<Text id="1">[sDisplay]
+</Text>
+<Text id="2"></Text>
+</Connector>
+<LinkSegment orientation="h" length="-308"/>
+
+</Link>
+
+<Link linkId="LINK14" type="chnl" textSegmentNum="0" color="#000000" reverseRead="FALSE" oriented="TRUE">
+<Text>cConCon</Text>
+<Connector attachedSymbolId="SYMB7" type="chnl" isOutside="TRUE" side="x" position="0.0" endType="midarrow">
+<Text id="1">[sSendData]
+</Text>
+<Text id="2"></Text>
+</Connector>
+<Connector attachedSymbolId="SYMB8" type="chnl" isOutside="TRUE" side="x" position="0.0" endType="midarrow">
+<Text id="1">[sGetData]
+</Text>
+<Text id="2"></Text>
+</Connector>
+<LinkSegment orientation="v" length="231"/>
+
+</Link>
+
+<Link linkId="LINK15" type="chnl" textSegmentNum="0" color="#000000" reverseRead="FALSE" oriented="TRUE">
+<Text>cConT</Text>
+<Connector attachedSymbolId="SYMB8" type="chnl" isOutside="TRUE" side="y" position="0.0" endType="midarrow">
+<Text id="1">[sSendTemp]
+</Text>
+<Text id="2"></Text>
+</Connector>
+<Connector attachedSymbolId="SYMB10" type="chnl" isOutside="TRUE" side="y" position="0.0" endType="midarrow">
+<Text id="1">[sGetTemp]
+</Text>
+<Text id="2"></Text>
+</Connector>
+<LinkSegment orientation="h" length="484"/>
+
+</Link>
+
+<Link linkId="LINK16" type="chnl" textSegmentNum="0" color="#000000" reverseRead="FALSE" oriented="TRUE">
+<Text>cConPH</Text>
+<Connector attachedSymbolId="SYMB8" type="chnl" isOutside="TRUE" side="x" position="0.0" endType="midarrow">
+<Text id="1">[sSendPH]
+</Text>
+<Text id="2"></Text>
+</Connector>
+<Connector attachedSymbolId="SYMB11" type="chnl" isOutside="TRUE" side="x" position="0.0" endType="midarrow">
+<Text id="1">[sGetPH]
+</Text>
+<Text id="2"></Text>
+</Connector>
+<LinkSegment orientation="v" length="88"/>
+<LinkSegment orientation="h" length="473"/>
+<LinkSegment orientation="v" length="88"/>
+
+</Link>
+
+<Link linkId="LINK17" type="chnl" textSegmentNum="0" color="#000000" reverseRead="FALSE" oriented="TRUE">
+<Text>cConH</Text>
+<Connector attachedSymbolId="SYMB8" type="chnl" isOutside="TRUE" side="x" position="1.0" endType="midarrow">
+<Text id="1">[sSendHum]
+</Text>
+<Text id="2"></Text>
+</Connector>
+<Connector attachedSymbolId="SYMB9" type="chnl" isOutside="TRUE" side="y" position="0.0" endType="midarrow">
+<Text id="1">[sGetHum]
+</Text>
+<Text id="2"></Text>
+</Connector>
+<LinkSegment orientation="v" length="-176"/>
+<LinkSegment orientation="h" length="429"/>
+
+</Link>
+</DiagramPartition>
+
+</Diagram>
